@@ -2,7 +2,7 @@
     "name": "git-difftool",
     "displayName": "git-difftool",
     "description": "run git difftool",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "publisher": "elppa",
     "icon": "image/logo@2x.png",
     "engines": {
@@ -14,6 +14,10 @@
     "activationEvents": [
         "onCommand:extension.runGitDifftool"
     ],
+    "repository": {
+      "type": "git",
+      "url": "git@github.com:elppac/vscode-git-difftool.git"
+    },
     "main": "./extension",
     "contributes": {
         "commands": [{

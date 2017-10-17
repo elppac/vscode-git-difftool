@@ -1,6 +1,10 @@
 // The module 'vscode' contains the VS Code extensibility API Import the module
 // and reference it with the alias vscode in your code below
 const vscode = require('vscode');
+const os = require('os');
+
+
+const isWin = os.platform() === 'win32'
 
 // this method is called when your extension is activated your extension is
 // activated the very first time the command is executed
@@ -20,10 +24,14 @@ function activate(context) {
             // The code you place here will be executed every time your command is executed
 
             const path = require('path')
-            const resourcePath = params._resourceUri.path;
+            const resourcePath = isWin ? params._resourceUri.fsPath :  params._resourceUri.path; 
             const dirPath = path.normalize(path.dirname(resourcePath));
+
+            const fileName = isWin ? path.basename(resourcePath) : resourcePath
+
             const exec = require('child_process').exec;
-            const cmd = `cd ${dirPath} \r\n git difftool -y ${resourcePath}`
+            const cmd = `cd ${dirPath} ${isWin?'&':';'} git difftool -y ${fileName}`
+
             exec(cmd, (err, stdout, stderr) => {
                 console.log('stdout: ' + stdout);
                 console.log('stderr: ' + stderr);
@@ -31,7 +39,7 @@ function activate(context) {
                     console.log('error: ' + err);
                 }
             });
-            //console.log(cmd)
+            console.log(cmd)
         });
 
     context
